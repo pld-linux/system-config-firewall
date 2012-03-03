@@ -1,7 +1,7 @@
 Summary:	A graphical interface for basic firewall setup
 Name:		system-config-firewall
 Version:	1.2.29
-Release:	5.7
+Release:	6
 License:	GPL v2+
 Group:		Base
 URL:		http://fedorahosted.org/system-config-firewall
@@ -85,8 +85,8 @@ rm -rf $RPM_BUILD_ROOT
 %post
 if [ $1 -eq 2 ]; then
 	# kill the D-BUS mechanism on update
-	# NOTE: pld killall does not kill procs with that long name and invoked by interpreter
-	killall -TERM system-config-firewall-mechanism.py >/dev/null 2>&1 || :
+	pid=$(pidof -x system-config-firewall-mechanism.py)
+	[ "$pid" ] && kill -TERM $pid || :
 fi
 %update_icon_cache hicolor
 
