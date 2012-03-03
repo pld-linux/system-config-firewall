@@ -1,7 +1,7 @@
 Summary:	A graphical interface for basic firewall setup
 Name:		system-config-firewall
 Version:	1.2.29
-Release:	5.6
+Release:	5.7
 License:	GPL v2+
 Group:		Base
 URL:		http://fedorahosted.org/system-config-firewall
@@ -18,11 +18,11 @@ Requires:	hicolor-icon-theme
 Requires:	python-dbus
 Requires:	python-pygtk-glade
 Requires:	python-pygtk-gtk
+Requires:	python-slip-dbus >= 0.2.7
 Requires:	system-config-firewall-base = %{version}-%{release}
 Requires:	system-config-firewall-tui = %{version}-%{release}
 Provides:	system-config-securitylevel = 1.7.0
 Obsoletes:	system-config-securitylevel
-Requires:	python-slip-dbus >= 0.2.7
 ExclusiveOS:	Linux
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -94,10 +94,10 @@ fi
 %update_icon_cache hicolor
 
 %triggerpostun -- %{name} < 1.1.0
-%{_datadir}/system-config-firewall/convert-config
+%{_datadir}/%{name}/convert-config
 
 %triggerpostun -- system-config-securitylevel
-%{_datadir}/system-config-firewall/convert-config
+%{_datadir}/%{name}/convert-config
 
 %files
 %defattr(644,root,root,755)
@@ -106,37 +106,37 @@ fi
 /etc/dbus-1/system.d/org.fedoraproject.Config.Firewall.conf
 %{_datadir}/dbus-1/system-services/org.fedoraproject.Config.Firewall.service
 %{_datadir}/polkit-1/actions/org.fedoraproject.config.firewall.policy
-%{_datadir}/system-config-firewall/fw_gui.*
-%{_datadir}/system-config-firewall/fw_dbus.*
-%{_datadir}/system-config-firewall/fw_nm.*
-%{_datadir}/system-config-firewall/gtk_*
-%{_datadir}/system-config-firewall/*.glade
-%attr(755,root,root) %{_datadir}/system-config-firewall/system-config-firewall-mechanism.*
+%{_datadir}/%{name}/fw_gui.*
+%{_datadir}/%{name}/fw_dbus.*
+%{_datadir}/%{name}/fw_nm.*
+%{_datadir}/%{name}/gtk_*
+%{_datadir}/%{name}/*.glade
+%attr(755,root,root) %{_datadir}/%{name}/system-config-firewall-mechanism.*
 %{_desktopdir}/system-config-firewall.desktop
 %{_iconsdir}/hicolor/*/apps/preferences-system-firewall*.*
 
 %files base -f %{name}.lang
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_sbindir}/lokkit
-%attr(755,root,root) %{_datadir}/system-config-firewall/convert-config
-%dir %{_datadir}/system-config-firewall
+%attr(755,root,root) %{_datadir}/%{name}/convert-config
+%dir %{_datadir}/%{name}
 %defattr(0644,root,root)
-%{_datadir}/system-config-firewall/etc_services.*
-%{_datadir}/system-config-firewall/fw_compat.*
-%{_datadir}/system-config-firewall/fw_config.*
-%{_datadir}/system-config-firewall/fw_firewalld.*
-%{_datadir}/system-config-firewall/fw_functions.*
-%{_datadir}/system-config-firewall/fw_icmp.*
-%{_datadir}/system-config-firewall/fw_iptables.*
-%{_datadir}/system-config-firewall/fw_lokkit.*
-%{_datadir}/system-config-firewall/fw_parser.*
-%{_datadir}/system-config-firewall/fw_selinux.*
-%{_datadir}/system-config-firewall/fw_services.*
-%{_datadir}/system-config-firewall/fw_sysconfig.*
-%{_datadir}/system-config-firewall/fw_sysctl.*
+%{_datadir}/%{name}/etc_services.*
+%{_datadir}/%{name}/fw_compat.*
+%{_datadir}/%{name}/fw_config.*
+%{_datadir}/%{name}/fw_firewalld.*
+%{_datadir}/%{name}/fw_functions.*
+%{_datadir}/%{name}/fw_icmp.*
+%{_datadir}/%{name}/fw_iptables.*
+%{_datadir}/%{name}/fw_lokkit.*
+%{_datadir}/%{name}/fw_parser.*
+%{_datadir}/%{name}/fw_selinux.*
+%{_datadir}/%{name}/fw_services.*
+%{_datadir}/%{name}/fw_sysconfig.*
+%{_datadir}/%{name}/fw_sysctl.*
 %ghost %config(missingok,noreplace) %verify(not md5 mtime size) /etc/sysconfig/system-config-firewall
 
 %files tui
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/system-config-firewall-tui
-%{_datadir}/system-config-firewall/fw_tui.*
+%{_datadir}/%{name}/fw_tui.*
