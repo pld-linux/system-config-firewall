@@ -75,7 +75,9 @@ desktop-file-install --vendor system --delete-original \
 
 %find_lang %{name} --all-name
 
-%py_postclean %{_datadir}/system-config-firewall
+mv $RPM_BUILD_ROOT%{_datadir}/%{name}/%{name}-mechanism.py{,.keep}
+%py_postclean %{_datadir}/%{name}
+mv $RPM_BUILD_ROOT%{_datadir}/%{name}/%{name}-mechanism.py{.keep,}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
