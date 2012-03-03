@@ -85,6 +85,7 @@ rm -rf $RPM_BUILD_ROOT
 %post
 if [ $1 -eq 2 ]; then
 	# kill the D-BUS mechanism on update
+	# NOTE: pld killall does not kill procs with that long name and invoked by interpreter
 	killall -TERM system-config-firewall-mechanism.py >/dev/null 2>&1 || :
 fi
 %update_icon_cache hicolor
