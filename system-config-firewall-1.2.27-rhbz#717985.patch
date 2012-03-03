@@ -1,0 +1,48 @@
+diff -up system-config-firewall-1.2.27/src/fw_dbus.py.rhbz#717985 system-config-firewall-1.2.27/src/fw_dbus.py
+--- system-config-firewall-1.2.27/src/fw_dbus.py.rhbz#717985	2010-08-10 12:37:57.000000000 +0200
++++ system-config-firewall-1.2.27/src/fw_dbus.py	2011-07-08 11:20:37.579654226 +0200
+@@ -23,7 +23,7 @@ import dbus.service
+ import dbus.mainloop.glib
+ import slip.dbus
+ import slip.dbus.service
+-import pickle
++import json
+ 
+ import fw_sysconfig
+ import fw_lokkit
+@@ -53,7 +53,7 @@ class DBusProxy(object):
+     def read(self):
+         rep = self.dbus_obj.read(dbus_interface=DBUS_DOMAIN)
+         try:
+-            args = pickle.loads(rep.encode('utf-8'))
++            args = json.loads(rep.encode('utf-8'))
+         except:
+             return None
+         return args
+@@ -61,7 +61,7 @@ class DBusProxy(object):
+     @slip.dbus.polkit.enable_proxy
+     def write(self, args):
+         try:
+-            rep = pickle.dumps(args)
++            rep = json.dumps(args)
+         except:
+             return -1
+         return self.dbus_obj.write(rep.encode('utf-8'),
+@@ -91,7 +91,7 @@ class DBusService(slip.dbus.service.Obje
+     def read(self):
+         args = fw_sysconfig.read_sysconfig_args()
+         try:
+-            rep = pickle.dumps(args)
++            rep = json.dumps(args)
+         except:
+             return None
+         return rep.encode('utf-8')    
+@@ -102,7 +102,7 @@ class DBusService(slip.dbus.service.Obje
+     @dbus.service.method(DBUS_DOMAIN, in_signature='s', out_signature='i')
+     def write(self, rep):
+         try:
+-            args = pickle.loads(rep.encode('utf-8'))
++            args = json.loads(rep.encode('utf-8'))
+         except:
+             return -1
+ 
