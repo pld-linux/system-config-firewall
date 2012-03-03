@@ -1,5 +1,3 @@
-# TODO
-# - fix bashism: sh: >/dev/null 2>&1 : illegal file descriptor name
 #
 # Conditional build:
 %bcond_with		usermode
@@ -9,7 +7,7 @@
 Summary:	A graphical interface for basic firewall setup
 Name:		system-config-firewall
 Version:	1.2.29
-Release:	5.4
+Release:	5.5
 License:	GPL v2+
 Group:		Base
 URL:		http://fedorahosted.org/system-config-firewall
@@ -17,6 +15,7 @@ Source0:	https://fedorahosted.org/released/system-config-firewall/%{name}-%{vers
 # Source0-md5:	c4c9957218e95dad08fb307bf66fb60c
 # replace pickle by json (CVE-2011-2520):
 Patch0:		%{name}-1.2.27-rhbz#717985.patch
+Patch1:		bashism.patch
 BuildRequires:	desktop-file-utils
 BuildRequires:	gettext
 BuildRequires:	intltool
@@ -74,6 +73,7 @@ setup.
 %prep
 %setup -q
 %patch0 -p1
+%patch1 -p1
 
 %build
 %configure \

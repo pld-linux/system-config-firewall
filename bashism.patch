@@ -1,0 +1,13 @@
+--- system-config-firewall-1.2.29/src/fw_firewalld.py~	2011-01-04 18:15:26.000000000 +0200
++++ system-config-firewall-1.2.29/src/fw_firewalld.py	2012-03-03 12:51:33.845920235 +0200
+@@ -20,8 +20,8 @@
+ import os, sys
+ 
+ def firewalld_active():
+-    chkconfig_status = os.system("/sbin/chkconfig firewalld >&/dev/null")
+-    service_status = os.system("/sbin/service firewalld status >&/dev/null")
++    chkconfig_status = os.system("/sbin/chkconfig firewalld >/dev/null 2>&1")
++    service_status = os.system("/sbin/service firewalld status >/dev/null 2>&1")
+ 
+     if chkconfig_status + service_status == 0:
+         return True
