@@ -1,13 +1,7 @@
-#
-# Conditional build:
-%bcond_with		usermode
-%bcond_with		polkit0
-%bcond_without	polkit1
-
 Summary:	A graphical interface for basic firewall setup
 Name:		system-config-firewall
 Version:	1.2.29
-Release:	5.5
+Release:	5.6
 License:	GPL v2+
 Group:		Base
 URL:		http://fedorahosted.org/system-config-firewall
@@ -28,15 +22,7 @@ Requires:	system-config-firewall-base = %{version}-%{release}
 Requires:	system-config-firewall-tui = %{version}-%{release}
 Provides:	system-config-securitylevel = 1.7.0
 Obsoletes:	system-config-securitylevel
-%if %{with usermode}
-Requires:	usermode-gtk >= 1.94
-%endif
-%if %{with polkit0}
-Requires:	python-slip-dbus >= 0.1.15
-%endif
-%if %{with polkit1}
 Requires:	python-slip-dbus >= 0.2.7
-%endif
 ExclusiveOS:	Linux
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -76,10 +62,7 @@ setup.
 %patch1 -p1
 
 %build
-%configure \
-	%{?with_usermode: --enable-usermode} \
-	%{?with_polkit0: --enable-policykit0} \
-	%{!?with_polkit1: --disable-policykit1}
+%configure
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -116,18 +99,10 @@ fi
 %files
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/system-config-firewall
-%if %{with usermode}
-%{_datadir}/system-config-firewall/system-config-firewall
-%endif
 %defattr(0644,root,root)
 /etc/dbus-1/system.d/org.fedoraproject.Config.Firewall.conf
 %{_datadir}/dbus-1/system-services/org.fedoraproject.Config.Firewall.service
-%if %{with polkit0}
-%{_datadir}/PolicyKit/policy/org.fedoraproject.config.firewall.0.policy
-%endif
-%if %{with polkit1}
 %{_datadir}/polkit-1/actions/org.fedoraproject.config.firewall.policy
-%endif
 %{_datadir}/system-config-firewall/fw_gui.*
 %{_datadir}/system-config-firewall/fw_dbus.*
 %{_datadir}/system-config-firewall/fw_nm.*
@@ -136,10 +111,6 @@ fi
 %attr(755,root,root) %{_datadir}/system-config-firewall/system-config-firewall-mechanism.*
 %{_desktopdir}/system-config-firewall.desktop
 %{_iconsdir}/hicolor/*/apps/preferences-system-firewall*.*
-%if %{with usermode}
-%config /etc/security/console.apps/system-config-firewall
-%config /etc/pam.d/system-config-firewall
-%endif
 
 %files base -f %{name}.lang
 %defattr(644,root,root,755)
